@@ -1,0 +1,24 @@
+.headerNavigation {
+  display: flex;
+  justify-content: center;
+  border-top: 1px solid rgb(227, 227, 227);
+  padding: 20px 0px;
+  background-color: white;
+  //   margin-top: 100px;
+}
+
+.text {
+  padding: 0px 15px;
+  font-weight: bold;
+  font-size: large;
+  color: black;
+  text-decoration: none;
+
+  &:hover {
+    color: orange;
+  }
+}
+
+.textContainer {
+  position: relative;
+}

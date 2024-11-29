@@ -1,0 +1,12 @@
+.banner-carousel-container {
+  overflow: hidden;
+  border-radius: 10px;
+  margin-top: 20px;
+}
+.banner-carousel-container .slick-prev,
+.banner-carousel-container .slick-next {
+  color: black;
+  font-size: 70px;
+  font-weight: bold;
+  z-index: 1;
+}
