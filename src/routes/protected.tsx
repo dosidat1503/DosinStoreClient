@@ -2,10 +2,12 @@ import { lazy } from "react";
 import routes from "@/configs/routes";
 
 import UserLayout from "../components/Layouts/UserLayout";
-const AccountInfo = lazy(() => import("@/pages/User/AccountInfo/accountInfo"));
-const Cart = lazy(() => import("@/pages/User/Cart/cart"));
-const Payment = lazy(() => import("@/pages/User/Payment/payment"));
+const AccountInfo = lazy(() => import("@/pages/user/account-info/account-info"));
+const Cart = lazy(() => import("@/pages/user/cart/cart"));
+const Payment = lazy(() => import("@/pages/user/payment/payment"));
 const PaymentResult = lazy(() => import("@/features/payment/components/payment-result"));
+const MyOder = lazy(() => import("@/pages/user/my-order/my-order"));
+const MyOrderDetail = lazy(() => import("@/features/my-order/components/order-detail"));
 
 export const protectedRoutes = [
   {
@@ -13,7 +15,7 @@ export const protectedRoutes = [
     element: <UserLayout />,
     children: [
       {
-        path: routes.infoAccount,
+        path: routes.accountInfo,
         element: <AccountInfo />,
       },
       {
@@ -27,6 +29,14 @@ export const protectedRoutes = [
       {
         path: routes.paymentResult,
         element: <PaymentResult />,
+      },
+      {
+        path: routes.myOrder,
+        element: <MyOder />,
+      },
+      {
+        path: routes.myOrderDetail,
+        element: <MyOrderDetail />,
       },
     ],
   },

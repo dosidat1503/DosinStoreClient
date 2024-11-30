@@ -60,9 +60,9 @@ const DeliveryInfo = (props: DeliveryInfoProps) => {
 
   const [isOpenAddessList, setIsOpenAddessList] = useState(false);
 
-  const handleInputShipInformation = (e: { target: { name: any; value: any } }) => {
-    const propertyName = e.target.name;
-    const propertyValue = e.target.value;
+  const handleInputShipInformation = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+    const propertyName = (e.target as HTMLInputElement).name;
+    const propertyValue = (e.target as HTMLInputElement).value;
 
     let totalPayable = 0;
     let deliveryFee = 0;

@@ -1,0 +1,35 @@
+.icon-update {
+  width: 150px;
+}
+.fa-solid {
+  width: 20%;
+  margin-right: 5px;
+}
+
+.fa-eye {
+  color: #4656aa;
+}
+
+.fa-pen-to-square {
+  color: #12f33f;
+}
+
+.div_thongTinGiaoHang {
+  display: flex;
+  flex-direction: column;
+  justify-content: left;
+}
+
+.thongTinGiaoHang {
+  color: red;
+}
+
+.content_list_order {
+  margin: 40px;
+}
+
+.pagination-container_myorder {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

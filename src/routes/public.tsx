@@ -3,10 +3,10 @@ import { RouteObject } from "react-router-dom";
 import routes from "@/configs/routes";
 
 import UserLayout from "@/components/Layouts/UserLayout";
-const Home = lazy(() => import("@/pages/User/Home/home"));
-const Collection = lazy(() => import("@/pages/User/Collection/collection"));
-const ProductDetail = lazy(() => import("@/pages/User/ProductDetail/product-detail"));
-const Authentication = lazy(() => import("@/pages/User/Authentication/authentication"));
+const Home = lazy(() => import("@/pages/user/home/home"));
+const Collection = lazy(() => import("@/pages/user/collection/collection"));
+const ProductDetail = lazy(() => import("@/pages/user/product-detail/product-detail"));
+const Authentication = lazy(() => import("@/pages/user/authentication/authentication"));
 
 export const publicRoutes: RouteObject[] = [
   {

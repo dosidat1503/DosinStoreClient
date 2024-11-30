@@ -6,7 +6,7 @@ import { useAppSelector } from "@/store";
 import useQueryParams from "@/hooks/useQueryParams";
 import { setQuery, setFashionType, setCategory, setSortBy } from "@/store/slices/collectionSlice";
 
-import { NEW } from "../Home/home";
+import { NEW } from "../home/home";
 import ProductCard from "@/features/home/components/product-card";
 
 import { Filter } from "@/features/collection/components";

@@ -7,6 +7,8 @@ import AssignmentIndIcon from "@mui/icons-material/AssignmentInd";
 import RequestQuoteIcon from "@mui/icons-material/RequestQuote";
 import Typography from "@mui/material/Typography";
 import useTheme from "@mui/material/styles/useTheme";
+import { useNavigate } from "react-router-dom";
+import routes from "@/configs/routes";
 
 interface AccountMenuProps {
   anchorEl: null | HTMLElement;
@@ -17,6 +19,12 @@ interface AccountMenuProps {
 const AccountMenu = (props: AccountMenuProps) => {
   const { anchorEl, open, handleClose } = props;
   const theme = useTheme();
+  const navigate = useNavigate();
+
+  const handleClickOrder = () => {
+    navigate(`${routes.myOrder}`);
+  };
+
   return (
     <Menu
       anchorEl={anchorEl}
@@ -43,8 +51,8 @@ const AccountMenu = (props: AccountMenuProps) => {
               display: "block",
               position: "absolute",
               top: 0,
-              left: "50%", // Căn giữa theo chiều ngang
-              transform: "translate(-50%, -50%) rotate(45deg)", // Dịch để mũi nhọn nằm ở giữa và xoay 45 độ
+              left: "50%",
+              transform: "translate(-50%, -50%) rotate(45deg)",
               width: 10,
               height: 10,
               bgcolor: "background.paper",
@@ -71,7 +79,7 @@ const AccountMenu = (props: AccountMenuProps) => {
         <Typography sx={{ fontWeight: "bold" }}>Tài khoản</Typography>
       </MenuItem>
       <MenuItem
-        onClick={handleClose}
+        onClick={handleClickOrder}
         sx={{
           "&:hover": {
             bgcolor: theme.palette.grey[200],

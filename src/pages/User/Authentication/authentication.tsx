@@ -69,14 +69,11 @@ function Authentication() {
     },
   });
 
-  const handleInputRegister = (e: { persist: () => void; target: { name: any; value: any } }) => {
-    e.persist();
-    setAuthentication({ ...authentication, [e.target.name]: e.target.value });
+  const handleInputRegister = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setAuthentication({ ...authentication, [e.currentTarget.name]: e.currentTarget.value });
   };
 
-  const registerSubmit = async (e: { preventDefault: () => void }) => {
-    e.preventDefault();
-
+  const registerSubmit = async () => {
     setIsLoading(true);
     const data = {
       name: authentication.name,
@@ -128,13 +125,12 @@ function Authentication() {
     },
   });
 
-  const handleInputLogin = (e: { persist: () => void; target: { name: any; value: any } }) => {
+  const handleInputLogin = (e: React.ChangeEvent<HTMLInputElement>) => {
     e.persist();
-    setLoginInput({ ...loginInput, [e.target.name]: e.target.value });
+    setLoginInput({ ...loginInput, [e.currentTarget.name]: e.currentTarget.value });
   };
 
-  const loginSubmit = async (e: { preventDefault: () => void }) => {
-    e.preventDefault();
+  const loginSubmit = async () => {
     setIsLoading(true);
 
     const data = {

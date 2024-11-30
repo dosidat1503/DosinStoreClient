@@ -39,12 +39,12 @@ const PaymentInfo = (props: PaymentInfoProps) => {
       ? formatPrice(discountVoucher * totalProductAmount)
       : formatPrice(deliveryFeeBeforeApplyVoucher - deliveryFee);
 
-  const handleChooseMethodPayment = (e: { target: { value: any } }) => {
-    setInfoToSaveOrder({ ...infoToSaveOrder, paymentMethod: e.target.value });
+  const handleChooseMethodPayment = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setInfoToSaveOrder({ ...infoToSaveOrder, paymentMethod: e.currentTarget.value });
   };
 
-  const handleInputVoucher = (e: { target: { value: any } }) => {
-    setInfoToSaveOrder({ ...infoToSaveOrder, inputVoucher: e.target.value });
+  const handleInputVoucher = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setInfoToSaveOrder({ ...infoToSaveOrder, inputVoucher: e.currentTarget.value });
   };
 
   const handleApplyVoucher = () => {
