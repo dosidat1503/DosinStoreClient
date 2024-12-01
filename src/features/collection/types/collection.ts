@@ -18,3 +18,8 @@ export interface ParamsGetCollection {
   sortBy: string;
   query_data: string;
 }
+
+export interface ContentTitleProps {
+  query: string;
+  fashionType: number;
+}

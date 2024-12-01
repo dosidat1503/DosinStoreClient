@@ -29,3 +29,10 @@ export interface GetMyOrderBody {
   numberOrderEachPage: number;
   matk: string;
 }
+
+export interface ParamsGetMyOrder {
+  start: number;
+  tenTrangThai: string;
+  numberOrderEachPage: number;
+  matk: string;
+}

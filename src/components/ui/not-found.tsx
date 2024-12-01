@@ -1,11 +1,18 @@
-import Typography from "@mui/material/Typography";
-import Box from "@mui/material/Box";
+import { Button, Result } from "antd";
+import { Link } from "react-router-dom";
 
 const NotFound = () => {
   return (
-    <Box>
-      <Typography variant="h4">Không thể tìm thấy trang của bạn</Typography>
-    </Box>
+    <Result
+      status="404"
+      title="404"
+      subTitle="Xin lỗi, trang bạn tìm kiếm không tồn tại."
+      extra={
+        <Button type="primary">
+          <Link to="/">Quay lại trang chủ</Link>
+        </Button>
+      }
+    />
   );
 };
 

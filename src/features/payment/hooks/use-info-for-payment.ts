@@ -7,7 +7,7 @@ export const useInfoForPayment = () => {
   const isClickPaymentAtCartPopup = useAppSelector((state) => state.cart.isClickPaymentAtCartPopup);
 
   const body = {
-    matk: localStorage.getItem("auth_matk"),
+    matk: localStorage.getItem("userId"),
     selected: 1,
     clickPaymentFromCart: isClickPaymentAtCartPopup,
   };

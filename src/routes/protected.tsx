@@ -1,7 +1,8 @@
 import { lazy } from "react";
 import routes from "@/configs/routes";
 
-import UserLayout from "../components/Layouts/UserLayout";
+import UserLayout from "@/components/Layouts/user-layout";
+import { UnAuthenticated } from "@/features/authentication/components";
 const AccountInfo = lazy(() => import("@/pages/user/account-info/account-info"));
 const Cart = lazy(() => import("@/pages/user/cart/cart"));
 const Payment = lazy(() => import("@/pages/user/payment/payment"));
@@ -12,7 +13,11 @@ const MyOrderDetail = lazy(() => import("@/features/my-order/components/order-de
 export const protectedRoutes = [
   {
     path: "/",
-    element: <UserLayout />,
+    element: (
+      <UnAuthenticated>
+        <UserLayout />
+      </UnAuthenticated>
+    ),
     children: [
       {
         path: routes.accountInfo,

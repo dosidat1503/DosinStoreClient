@@ -13,7 +13,7 @@ const ProductDetailInfo = () => {
   const idProductParams = params.get("id") || "";
   const idProduct = parseInt(idProductParams);
 
-  const { data, isLoading } = useProductDetail(idProduct);
+  const { data, isLoading, isError } = useProductDetail(idProduct);
 
   const images = data?.data_hinhanh as Image[];
   const productDetail = data?.data_sanpham as ProductDetail;
@@ -24,13 +24,14 @@ const ProductDetailInfo = () => {
   const GIABAN = data?.data_sanpham?.GIABAN || 0;
 
   if (isLoading) return <Skeleton active />;
+  if (isError) return <h1>Không thể load sản phẩm</h1>;
 
   return (
     <Row gutter={[16, 16]} className={style.mainContainer}>
-      <Col span={12}>
+      <Col xs={24} sm={24} md={12} lg={12}>
         <DetailProductImage images={images} />
       </Col>
-      <Col span={12}>
+      <Col xs={24} sm={24} md={12} lg={12}>
         <BaseInfo masp={idProduct} productDetail={productDetail} />
         <ProductSelect
           colors={colors}
@@ -40,10 +41,10 @@ const ProductDetailInfo = () => {
           sellPrice={GIABAN}
         />
       </Col>
-      <Col span={12}>
+      <Col xs={24} sm={24} md={12} lg={12}>
         <Review idProduct={idProduct} />
       </Col>
-      <Col span={12}>
+      <Col xs={24} sm={24} md={12} lg={12}>
         <ProductDescribe content={descriptionContent} />
       </Col>
     </Row>

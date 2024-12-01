@@ -12,85 +12,65 @@ import { useTheme } from "@mui/material/styles";
 import Tooltip from "@mui/material/Tooltip";
 import { useState } from "react";
 import Avatar from "@mui/material/Avatar";
-import AccountMenu from "./AccountMenu/accountMenu";
+import AccountMenu from "@/features/header/components/account-menu";
 import Container from "@mui/material/Container";
 import Badge from "@mui/material/Badge";
 import Typography from "@mui/material/Typography";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import ExpandCircleDownIcon from "@mui/icons-material/ExpandCircleDown";
-import Navigation from "./HeaderNavigation/headerNavigation";
+import Navigation from "@/features/header/components/header-navigation";
 import { useNavigate } from "react-router-dom";
 import style from "@/features/cart/styles/cart-popup.module.scss";
 import CartPopup from "@/features/cart/components/cart-popup";
+import {
+  boxOnToolbar,
+  dosinIconButton,
+  menuContainer,
+  searchContainer,
+  searchIconButton,
+  searchInputBase,
+} from "@/features/header/styles";
+import routes from "@/configs/routes";
 
 const Header = () => {
-  const theme = useTheme();
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const open = Boolean(anchorEl);
 
+  const theme = useTheme();
   const navigate = useNavigate();
 
   const handleLogoClick = () => {
     navigate("/");
   };
 
-  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-  const open = Boolean(anchorEl);
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
   };
+
   const handleClose = () => {
     setAnchorEl(null);
   };
+
+  const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === "Enter") {
+      const query = (event.target as HTMLInputElement).value;
+      navigate(`${routes.collection}?query=${query}`);
+    }
+  };
+
   return (
     <AppBar position="sticky" elevation={0}>
-      <Box
-        sx={{
-          height: "15px",
-          width: "100%",
-          bgcolor: "black",
-        }}
-      ></Box>
+      <Box sx={boxOnToolbar}></Box>
       <Toolbar>
         <Container maxWidth="lg">
           <Stack direction={{ xs: "column", sm: "row" }} justifyContent="space-between" padding="10px" spacing={2}>
-            <IconButton onClick={handleLogoClick} sx={{ padding: 0, cursor: "pointer" }}>
+            <IconButton onClick={handleLogoClick} sx={dosinIconButton}>
               <DosinLogo />
             </IconButton>
-            <Paper
-              component="form"
-              sx={{
-                p: "2px 4px",
-                display: "flex",
-                alignItems: "center",
-                width: { xs: "100%", md: "50%" },
-                borderRadius: "10px",
-                boxShadow: "5px 2px 8px rgba(0, 0, 0, 0.3)",
-                height: "100%",
-              }}
-            >
-              <InputBase sx={{ ml: 2, flex: 1 }} placeholder="Tìm kiếm sản phẩm" />
-              <IconButton
-                type="submit"
-                sx={{
-                  p: "10px",
-                  bgcolor: theme.palette.common.black,
-                  borderRadius: "10px",
-                  my: 0.1,
-                  boxShadow: "4px 4px 12px rgba(0, 0, 0, 0.3)",
-                  "&:hover": {
-                    bgcolor: "#a1a1a1",
-                    color: theme.palette.common.black,
-                    "& .MuiSvgIcon-root": {
-                      color: theme.palette.common.black,
-                    },
-                  },
-                }}
-                aria-label="search"
-              >
-                <SearchIcon
-                  sx={{
-                    color: theme.palette.common.white,
-                  }}
-                />
+            <Paper sx={searchContainer}>
+              <InputBase sx={searchInputBase} placeholder="Tìm kiếm sản phẩm" onKeyDown={handleKeyDown} />
+              <IconButton sx={searchIconButton(theme)} aria-label="search">
+                <SearchIcon sx={{ color: theme.palette.common.white }} />
               </IconButton>
             </Paper>
             <Stack direction={"row"} spacing={2} alignItems={"center"}>
@@ -105,14 +85,7 @@ const Header = () => {
               </div>
               <Paper
                 elevation={0}
-                sx={{
-                  display: "flex",
-                  alignItems: "center",
-                  padding: "8px 4px",
-                  borderRadius: "20px",
-                  backgroundColor: "#f5faff",
-                  justifyContent: "space-between",
-                }}
+                sx={menuContainer}
                 aria-controls={open ? "account-menu" : undefined}
                 aria-haspopup="true"
                 aria-expanded={open ? "true" : undefined}

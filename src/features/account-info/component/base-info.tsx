@@ -1,21 +1,22 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useBaseInfo } from "../hooks";
-import { message } from "antd";
-import { NoticeType } from "antd/es/message/interface";
+import { message, Skeleton } from "antd";
 import { useSaveBaseInfo } from "../hooks/use-save-base-info";
 import style from "../styles/base-info.module.scss";
 import clsx from "clsx";
+import { AccountInfoInput, Message } from "../types";
 
 const BaseInfo = () => {
-  const { data } = useBaseInfo();
+  const { data, isLoading } = useBaseInfo();
   const { mutateAsync: saveInfoAccount, isPending } = useSaveBaseInfo();
 
-  const [messageSetting, setMessageSetting] = useState<{ type: NoticeType; content: string }>({
+  const [messageApi, contextHolderMessage] = message.useMessage();
+
+  const [messageSetting, setMessageSetting] = useState<Message>({
     type: "info",
     content: "",
   });
-  const [messageApi, contextHolderMessage] = message.useMessage();
-  const [accountInfo, setAccountInfo] = useState({
+  const [accountInfo, setAccountInfo] = useState<AccountInfoInput>({
     name: "",
     email: "",
     gender: "",
@@ -23,25 +24,28 @@ const BaseInfo = () => {
     address: "",
   });
 
-  const handleInputInfoAccount = (e: { persist: () => void; target: { name: string; value: string } }) => {
-    const name = e.target.name;
-    let value = e.target.value;
+  const handleInputInfoAccount = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      const name = e.target.name;
+      let value = e.target.value;
 
-    if (name === "numberPhone") {
-      value = value.replace(/[^0-9]/g, "");
-    }
+      if (name === "numberPhone") {
+        value = value.replace(/[^0-9]/g, "");
+      }
 
-    setAccountInfo({ ...accountInfo, [name]: value });
-  };
+      setAccountInfo({ ...accountInfo, [name]: value });
+    },
+    [accountInfo],
+  );
 
-  const handleSaveBaseInfo = () => {
+  const handleSaveBaseInfo = useCallback(() => {
     const data = {
       name: accountInfo.name,
       email: accountInfo.email,
       gender: accountInfo.gender,
       numberPhone: accountInfo.numberPhone,
       address: accountInfo.address,
-      matk: localStorage.getItem("auth_matk"),
+      matk: localStorage.getItem("userId"),
     };
 
     const isEmptyField = Object.values(data).some((value) => !value);
@@ -65,7 +69,7 @@ const BaseInfo = () => {
         setMessageSetting({ type: "error", content: "Lưu thất bại" });
       }
     });
-  };
+  }, [accountInfo, saveInfoAccount]);
 
   useEffect(() => {
     messageSetting.content &&
@@ -88,6 +92,8 @@ const BaseInfo = () => {
       });
     }
   }, [data]);
+
+  if (isLoading) return <Skeleton active />;
 
   return (
     <div className="container col-6">

@@ -3,7 +3,7 @@ import { AccountInfoResponse, BaseInfoBody, PasswordChangeBody, PasswordChangeRe
 
 export const accountInfoApi = {
   getAccountInfo() {
-    const data = { matk: localStorage.getItem("auth_matk") };
+    const data = { matk: localStorage.getItem("userId") };
 
     return request.get<any, AccountInfoResponse>("/getAccountInfo", { params: data }).then((res) => res.accountInfo);
   },

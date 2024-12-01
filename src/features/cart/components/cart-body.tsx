@@ -24,7 +24,7 @@ const CartBody = ({ carts }: { carts: CartItem[] }) => {
     queryClient.setQueryData(cartKeys.cart, { data: newCarts });
     const selcted = item.SELECTED === 0 ? 1 : 0;
     const data = {
-      matk: localStorage.getItem("auth_matk"),
+      matk: localStorage.getItem("userId"),
       masp: item.MASP,
       mamau: item.MAMAU,
       masize: item.MASIZE,
@@ -52,7 +52,7 @@ const CartBody = ({ carts }: { carts: CartItem[] }) => {
 
     const item = carts[index1];
     const data = {
-      matk: localStorage.getItem("auth_matk"),
+      matk: localStorage.getItem("userId"),
       masp: item.MASP,
       mamau: item.MAMAU,
       masize: item.MASIZE,
@@ -65,7 +65,7 @@ const CartBody = ({ carts }: { carts: CartItem[] }) => {
 
   const handleClickDelete = (index: number) => {
     const data = {
-      matk: parseInt(localStorage.getItem("auth_matk") || "0"),
+      matk: parseInt(localStorage.getItem("userId") || "0"),
       masp: carts[index].MASP,
       mamau: carts[index].MAMAU,
       masize: carts[index].MASIZE,

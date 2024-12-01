@@ -1,36 +1,34 @@
 import { Pagination, Row, Skeleton, Typography, Flex } from "antd";
 import { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
-import { useAppSelector } from "@/store";
 
 import useQueryParams from "@/hooks/useQueryParams";
-import { setQuery, setFashionType, setCategory, setSortBy } from "@/store/slices/collectionSlice";
 
 import { NEW } from "../home/home";
 import ProductCard from "@/features/home/components/product-card";
 
 import { Filter } from "@/features/collection/components";
-import { ParamsGetCollection } from "@/features/collection/types";
+import { ContentTitleProps, ParamsGetCollection } from "@/features/collection/types";
 import { useCollection } from "@/features/collection/hooks/useCollection";
 import { fashionTypeList, numberProductEachPage, sortTypeList } from "@/features/collection/constants";
 
 const { Title } = Typography;
 
+const ContenTitle = ({ query, fashionType }: ContentTitleProps) => {
+  const item = fashionTypeList.find((item) => item.id === fashionType);
+  const title = query ? "SẢN PHẨM TÌM THẤY" : `THỜI TRANG ${item?.title}`;
+
+  return <Title level={1}>{title}</Title>;
+};
+
 const Collection = () => {
   const params = useQueryParams();
-  const dispatch = useDispatch();
 
-  const queryParam = params.get("query") || "";
-  const categoryParam = parseInt(params.get("category") || "1");
-  const fashionTypeParam = parseInt(params.get("fashionType") || "1");
-  const sortByParam = params.get("sortBy") || sortTypeList[0].id;
+  const query = params.get("query") || "";
+  const category = parseInt(params.get("category") || "1");
+  const fashionType = parseInt(params.get("fashionType") || "1");
+  const sortBy = params.get("sortBy") || sortTypeList[0].id;
 
-  const query = useAppSelector((state) => state.collection.query);
-  const fashionType = useAppSelector((state) => state.collection.fashionType);
-  const category = useAppSelector((state) => state.collection.category);
-  const sortBy = useAppSelector((state) => state.collection.sortBy);
-
-  const [currentPage, setCurrentPage] = useState(1);
+  const [currentPage, setCurrentPage] = useState<number>(1);
   const [paramsGetCollection, setParamsGetCollection] = useState<ParamsGetCollection>({
     start: numberProductEachPage * (currentPage - 1),
     numberProductEachPage: numberProductEachPage,
@@ -43,11 +41,6 @@ const Collection = () => {
   const { data, isLoading, isError } = useCollection(paramsGetCollection);
 
   useEffect(() => {
-    dispatch(setQuery(queryParam));
-    dispatch(setFashionType(fashionTypeParam));
-    dispatch(setCategory(categoryParam));
-    dispatch(setSortBy(sortByParam));
-
     setCurrentPage(1);
     setParamsGetCollection({
       start: numberProductEachPage * (currentPage - 1),
@@ -59,19 +52,12 @@ const Collection = () => {
     });
   }, [location.search]);
 
-  const CollectionTitle = () => {
-    const item = fashionTypeList.find((item) => item.id === fashionType);
-    const title = query ? "SẢN PHẨM TÌM THẤY" : item?.title;
-
-    return <Title level={1}>THỜI TRANG {title}</Title>;
-  };
-
   if (isError) return <Title level={5}>Không thể load sản phẩm</Title>;
 
   return (
     <>
       <Flex justify="center" style={{ width: "100%", marginTop: "20px" }}>
-        {CollectionTitle()}
+        <ContenTitle query={query} fashionType={fashionType} />
       </Flex>
 
       <Filter query={query} hasProduct={data?.productList?.length || isLoading ? true : false}></Filter>

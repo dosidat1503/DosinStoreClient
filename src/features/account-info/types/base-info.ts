@@ -1,3 +1,5 @@
+import { NoticeType } from "antd/es/message/interface";
+
 export interface AccountInfoResponse {
   accountInfo: AccountInfo;
 }
@@ -17,4 +19,17 @@ export interface BaseInfoBody {
   numberPhone: string;
   address: string;
   matk: string | null;
+}
+
+export interface Message {
+  type: NoticeType;
+  content: string;
+}
+
+export interface AccountInfoInput {
+  name: string;
+  email: string;
+  gender: string;
+  numberPhone: string;
+  address: string;
 }

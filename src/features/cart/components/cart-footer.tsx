@@ -26,6 +26,7 @@ const CartFooter = (props: { totalAmount: number }) => {
   const handleContinuelyBuy = () => {
     Navigate(`${routes.home}`);
   };
+
   return (
     <div className={clsx("container mt-5", contentBottom)}>
       <div>

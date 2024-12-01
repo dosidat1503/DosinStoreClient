@@ -58,7 +58,7 @@ const DeliveryInfo = (props: DeliveryInfoProps) => {
     }
   }, [communes, isCommunesLoaded]);
 
-  const [isOpenAddessList, setIsOpenAddessList] = useState(false);
+  const [isOpenAddessList, setIsOpenAddessList] = useState<boolean>(false);
 
   const handleInputShipInformation = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const propertyName = (e.target as HTMLInputElement).name;

@@ -1,7 +1,6 @@
 import { Button, Col, Flex, Row, Skeleton, Typography } from "antd";
 import { useNavigate } from "react-router-dom";
 
-import { useAppSelector } from "@/store";
 import useQueryParams from "@/hooks/useQueryParams";
 
 import { useCategory } from "../hooks";
@@ -11,8 +10,9 @@ const { Title } = Typography;
 
 const Category = () => {
   const params = useQueryParams();
-  const fashionType = useAppSelector((state) => state.collection.fashionType);
-  const category = useAppSelector((state) => state.collection.category);
+
+  const category = parseInt(params.get("category") || "1");
+  const fashionType = parseInt(params.get("fashionType") || "1");
 
   const navigate = useNavigate();
   const { data, isLoading, isError } = useCategory(fashionType);

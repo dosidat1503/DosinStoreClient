@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 
 import "../styles/banner.css";
 import routes from "@/configs/routes";
-import { MenuList } from "@/components/Layouts/UserLayout/Header/HeaderNavigation/headerNavigation";
+import { MenuList } from "@/features/header/constants";
 
 const Banner = () => {
   const navigate = useNavigate();

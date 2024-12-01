@@ -1,26 +1,26 @@
-import { NoticeType } from "antd/es/message/interface";
 import style from "../styles/base-info.module.scss";
 import clsx from "clsx";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { message } from "antd";
 import { usePasswordChange } from "../hooks/use-password-change";
+import { Message, PasswordChangeInfo } from "../types";
 
 const PasswordChange = () => {
-  const [passwordChangeInfo, setPasswordChangeInfo] = useState({
+  const [passwordChangeInfo, setPasswordChangeInfo] = useState<PasswordChangeInfo>({
     oldPassword: "",
     newPassword: "",
     confirmNewPassword: "",
-    matk: localStorage.getItem("auth_matk"),
+    matk: localStorage.getItem("userId"),
   });
-
-  const { mutateAsync: passwordChange, isPending } = usePasswordChange();
-  const [messageSetting, setMessageSetting] = useState<{ type: NoticeType; content: string }>({
+  const [messageSetting, setMessageSetting] = useState<Message>({
     type: "info",
     content: "",
   });
+
+  const { mutateAsync: passwordChange, isPending } = usePasswordChange();
   const [messageApi, contextHolderMessage] = message.useMessage();
 
-  const handleChangePassword = () => {
+  const handleChangePassword = useCallback(() => {
     if (passwordChangeInfo.newPassword !== passwordChangeInfo.confirmNewPassword) {
       setMessageSetting({ type: "error", content: "Xác nhận mật khẩu mới không khớp" });
     } else {
@@ -38,9 +38,9 @@ const PasswordChange = () => {
         }
       });
     }
-  };
+  }, [passwordChangeInfo]);
 
-  const handleInputInfoChangePassword = (e: { target: { name: any; value: any } }) => {
+  const handleInputInfoChangePassword = (e: React.ChangeEvent<HTMLInputElement>) => {
     setPasswordChangeInfo({
       ...passwordChangeInfo,
       [e.target.name]: e.target.value,

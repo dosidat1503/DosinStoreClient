@@ -6,21 +6,23 @@ import { useEffect, useState } from "react";
 import { useMyOrder } from "@/features/my-order/hooks/use-my-order";
 import { numberOrderEachPage } from "@/features/my-order/constants";
 import { OrderList, OrderNavigation } from "@/features/my-order/components";
+import { Skeleton } from "antd";
+import { ParamsGetMyOrder } from "@/features/my-order/types";
 
 const MyOder = () => {
   const params = useQueryParams();
-  const matk = localStorage.getItem("auth_matk") || "";
+  const matk = localStorage.getItem("userId") || "";
 
   const statusName = params.get("statusName") || statusList[0].name;
   const currentPage = params.get("currentPage") || "1";
-  const [paramsGetMyOrder, setParamsGetMyOrder] = useState({
+  const [paramsGetMyOrder, setParamsGetMyOrder] = useState<ParamsGetMyOrder>({
     start: numberOrderEachPage * (parseInt(currentPage) - 1),
     tenTrangThai: statusList[0].name,
     numberOrderEachPage: numberOrderEachPage,
     matk: matk,
   });
 
-  const { data: myOrders } = useMyOrder(paramsGetMyOrder);
+  const { data: myOrders, isLoading, isError } = useMyOrder(paramsGetMyOrder);
 
   useEffect(() => {
     setParamsGetMyOrder({
@@ -30,6 +32,9 @@ const MyOder = () => {
       matk: matk,
     });
   }, [useLocation().search]);
+
+  if (isLoading) return <Skeleton active />;
+  if (isError) return <h1>Không thể load đơn hàng</h1>;
 
   return (
     <div className="container">

@@ -1,25 +1,7 @@
-import style from "./headerNavigation.module.scss";
+import style from "../styles/header-navigation.module.scss";
 import { NavLink } from "react-router-dom";
 import routes from "@/configs/routes";
-import images from "@/assets/images";
-
-export const MenuList = [
-  {
-    title: "Nam",
-    to: "?fashionType=1",
-    img: images.male,
-  },
-  {
-    title: "Nữ",
-    to: "?fashionType=2",
-    img: images.female,
-  },
-  {
-    title: "Trẻ em",
-    to: "?fashionType=3",
-    img: images.female,
-  },
-];
+import { MenuList } from "../constants";
 
 const Navigation = () => {
   return (

@@ -8,10 +8,7 @@ export const productDetailApi = {
     return request.get<any, ProductDetailResponse>(`/productDetail?id=${id}`).then((res) => res);
   },
   getProductReviews(masp: number) {
-    return request.get<any, ProductReviewResponse>(`/getProductReviews?masp=${masp}`).then((res) => {
-      console.log("res");
-      return res;
-    });
+    return request.get<any, ProductReviewResponse>(`/getProductReviews?masp=${masp}`).then((res) => res);
   },
   getRelativeProduct(masp: string) {
     return request.get<any, RelativeProductResponse>(`/getRelativeProduct?masp=${masp}`).then((res) => res);

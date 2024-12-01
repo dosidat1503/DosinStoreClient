@@ -3,7 +3,6 @@ import { DownOutlined } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
 
 import useQueryParams from "@/hooks/useQueryParams";
-import { useAppSelector } from "@/store";
 
 import { sortTypeList } from "../constants";
 import { SortByItem } from "../types";
@@ -13,7 +12,7 @@ const { Title } = Typography;
 
 const SortBy = () => {
   const params = useQueryParams();
-  const sortBy = useAppSelector((state) => state.collection.sortBy);
+  const sortBy = params.get("sortBy") || sortTypeList[0].id;
 
   const navigate = useNavigate();
 

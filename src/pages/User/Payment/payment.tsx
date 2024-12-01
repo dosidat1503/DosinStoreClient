@@ -16,7 +16,7 @@ const Payment = () => {
     document.title = "DosiIn | Thanh toán";
   }, []);
   const dispatch = useDispatch();
-  const { data: infoForPayment, isLoading } = useInfoForPayment();
+  const { data: infoForPayment, isLoading, isError } = useInfoForPayment();
 
   const [isInputShipInformationValidated, setIsInputShipInformationValidated] = useState<boolean>(false);
 
@@ -37,6 +37,7 @@ const Payment = () => {
   }, [infoForPayment]);
 
   if (isLoading) return <Skeleton active style={{ marginTop: "20px" }} />;
+  if (isError) return <h1>Không thể load thông tin thanh toán</h1>;
 
   return (
     <div>

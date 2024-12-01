@@ -1,4 +1,4 @@
-import { Row } from "antd";
+import { Row, Skeleton } from "antd";
 
 import style from "@/features/home/styles/home.module.scss";
 import { useProductAtHome } from "@/features/home/hooks";
@@ -10,7 +10,10 @@ const HOT = "hot";
 const { productContainer, title, productList } = style;
 
 const Home = () => {
-  const { data: products } = useProductAtHome();
+  const { data: products, isLoading, isError } = useProductAtHome();
+
+  if (isLoading) return <Skeleton />;
+  if (isError) return <h1>Không thể load sản phẩm</h1>;
 
   return (
     <div>

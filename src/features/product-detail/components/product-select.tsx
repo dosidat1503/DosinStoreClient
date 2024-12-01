@@ -4,10 +4,8 @@ import { Color, DefineQuantity, PropertyDefineProductType, Size } from "../types
 import { useEffect, useMemo, useRef, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCartShopping } from "@fortawesome/free-solid-svg-icons";
-import { message, notification } from "antd";
-import { NotificationPlacement } from "antd/es/notification/interface";
+import { message, Spin } from "antd";
 import React from "react";
-import { useNavigate } from "react-router-dom";
 import { NoticeType } from "antd/es/message/interface";
 import { useCartInfo } from "@/features/cart/hooks/use-cart-info";
 import { useAddProductToCart, useUpdateQuantityPopup } from "@/features/cart/hooks";
@@ -15,6 +13,7 @@ import { setIsShowPopup } from "@/store/slices/cartSlice";
 import { useQueryClient } from "@tanstack/react-query";
 import { cartKeys } from "@/features/cart/constants";
 import { useDispatch } from "react-redux";
+import { Message } from "@/features/account-info/types";
 
 const choseType = {
   colorCode: "colorCode",
@@ -38,12 +37,10 @@ message.config({
 const ProductSelect = (props: ProductSelectProps) => {
   const { colors, sizes, defineQuantity, idProduct, sellPrice } = props;
 
-  const [api, contextHolder] = notification.useNotification();
+  // const [api, contextHolder] = notification.useNotification();
   const [messageApi, contextHolderMessage] = message.useMessage();
   const { data } = useCartInfo();
   const carts = data?.data || [];
-
-  const navigate = useNavigate();
 
   const buttonAddToCartRef = useRef(null);
   const [notifyQuantity, setNotifyQuantity] = useState<number>(0);
@@ -52,7 +49,7 @@ const ProductSelect = (props: ProductSelectProps) => {
     sizeCode: "",
     quantity: 1,
   });
-  const [messageSetting, setMessageSetting] = useState<{ type: NoticeType; content: string }>({
+  const [messageSetting, setMessageSetting] = useState<Message>({
     type: "info",
     content: "",
   });
@@ -60,7 +57,7 @@ const ProductSelect = (props: ProductSelectProps) => {
   const { quantity, colorCode, sizeCode } = propertyDefineProductType as PropertyDefineProductType;
 
   const { mutate: updateProduct } = useUpdateQuantityPopup();
-  const { mutate: addProductToCart } = useAddProductToCart();
+  const { mutate: addProductToCart, isPending } = useAddProductToCart();
   const queryClient = useQueryClient();
 
   const dispatch = useDispatch();
@@ -75,13 +72,13 @@ const ProductSelect = (props: ProductSelectProps) => {
     });
   };
 
-  const handleOpenNotification = (placement: NotificationPlacement) => {
-    api.info({
-      message: `Số lượng sản phẩm`,
-      description: <Context.Consumer>{({ quantity }) => `Còn ${quantity} sản phẩm!`}</Context.Consumer>,
-      placement,
-    });
-  };
+  // const handleOpenNotification = (placement: NotificationPlacement) => {
+  //   api.info({
+  //     message: `Số lượng sản phẩm`,
+  //     description: <Context.Consumer>{({ quantity }) => `Còn ${quantity} sản phẩm!`}</Context.Consumer>,
+  //     placement,
+  //   });
+  // };
 
   const handleChangeQuantity = (e: React.MouseEvent<HTMLInputElement>) => {
     let newQuantity = quantity;
@@ -134,60 +131,54 @@ const ProductSelect = (props: ProductSelectProps) => {
   };
 
   const handleAddToCart = () => {
-    // const hadLogin = localStorage.getItem("auth_matk");
-    const hadLogin = "";
-    if (hadLogin === null) {
-      navigate("/login");
+    const item = defineQuantity.find((item) => item.MAMAU === colorCode && item.MASIZE === sizeCode);
+    if (colorCode === 0 || sizeCode === "") {
+      setMessageSetting({
+        type: "warning",
+        content: "Vui lòng chọn màu sắc và kích thước sản phẩm",
+      });
+    } else if (item && item.SOLUONG < quantity) {
+      setMessageSetting({
+        type: "warning",
+        content: "Số lượng sản phẩm còn lại không đủ để thêm vào giỏ hàng",
+      });
     } else {
-      const item = defineQuantity.find((item) => item.MAMAU === colorCode && item.MASIZE === sizeCode);
-      if (colorCode === 0 || sizeCode === "") {
-        setMessageSetting({
-          type: "warning",
-          content: "Vui lòng chọn màu sắc và kích thước sản phẩm",
-        });
-      } else if (item && item.SOLUONG < quantity) {
-        setMessageSetting({
-          type: "warning",
-          content: "Số lượng sản phẩm còn lại không đủ để thêm vào giỏ hàng",
+      const data = {
+        matk: localStorage.getItem("userId"),
+        masp: idProduct,
+        mamau: colorCode,
+        masize: sizeCode,
+        soluong: quantity,
+        tonggia: quantity * sellPrice,
+      };
+
+      const itemInCart = carts?.find(
+        (item) => item.MASP === idProduct && item.MAMAU === colorCode && item.MASIZE === sizeCode,
+      );
+      if (itemInCart) {
+        updateProduct(data, {
+          onSuccess: () => {
+            handleAdjustSuccess("success", "Số lượng sản phẩm đã được cập nhật");
+          },
+          onError: () => {
+            setMessageSetting({
+              type: "error",
+              content: "Có lỗi xảy ra, vui lòng thử lại",
+            });
+          },
         });
       } else {
-        const data = {
-          matk: localStorage.getItem("auth_matk"),
-          masp: idProduct,
-          mamau: colorCode,
-          masize: sizeCode,
-          soluong: quantity,
-          tonggia: quantity * sellPrice,
-        };
-
-        const itemInCart = carts?.find(
-          (item) => item.MASP === idProduct && item.MAMAU === colorCode && item.MASIZE === sizeCode,
-        );
-        if (itemInCart) {
-          updateProduct(data, {
-            onSuccess: () => {
-              handleAdjustSuccess("success", "Số lượng sản phẩm đã được cập nhật");
-            },
-            onError: () => {
-              setMessageSetting({
-                type: "error",
-                content: "Có lỗi xảy ra, vui lòng thử lại",
-              });
-            },
-          });
-        } else {
-          addProductToCart(data, {
-            onSuccess: () => {
-              handleAdjustSuccess("success", "Sản phẩm đã được thêm vào giỏ hàng");
-            },
-            onError: () => {
-              setMessageSetting({
-                type: "error",
-                content: "Có lỗi xảy ra, vui lòng thử lại",
-              });
-            },
-          });
-        }
+        addProductToCart(data, {
+          onSuccess: () => {
+            handleAdjustSuccess("success", "Sản phẩm đã được thêm vào giỏ hàng");
+          },
+          onError: () => {
+            setMessageSetting({
+              type: "error",
+              content: "Có lỗi xảy ra, vui lòng thử lại",
+            });
+          },
+        });
       }
     }
   };
@@ -196,7 +187,6 @@ const ProductSelect = (props: ProductSelectProps) => {
     if (colorCode !== 0 && sizeCode !== "") {
       const item = defineQuantity.find((item) => item.MAMAU === colorCode && item.MASIZE === sizeCode);
       setNotifyQuantity(item?.SOLUONG || 0);
-      console.log(item?.SOLUONG);
     }
   }, [propertyDefineProductType]);
 
@@ -209,7 +199,7 @@ const ProductSelect = (props: ProductSelectProps) => {
   return (
     <>
       <Context.Provider value={contextValue}>
-        {contextHolder}
+        {/* {contextHolder} */}
         {contextHolderMessage}
         <div className={clsx(style.container, style.colorContainer)}>
           <div className={style.headerText}>
@@ -282,11 +272,17 @@ const ProductSelect = (props: ProductSelectProps) => {
           </div>
         </div>
         <div className={style.container}>
-          <button className={style.cardAdditionButton} ref={buttonAddToCartRef} onClick={handleAddToCart}>
-            <FontAwesomeIcon icon={faCartShopping} className={style.cartIcon}></FontAwesomeIcon>
-            <p className={style.cartText}>THÊM VÀO GIỎ</p>
-          </button>
-          {notifyQuantity > 0 ? <p style={{ fontWeight: "bold" }}>Còn {`${notifyQuantity} sản phẩm`}</p> : ""}
+          {isPending ? (
+            <Spin size="default" />
+          ) : (
+            <>
+              <button className={style.cardAdditionButton} ref={buttonAddToCartRef} onClick={handleAddToCart}>
+                <FontAwesomeIcon icon={faCartShopping} className={style.cartIcon}></FontAwesomeIcon>
+                <p className={style.cartText}>THÊM VÀO GIỎ</p>
+              </button>
+              {notifyQuantity > 0 ? <p style={{ fontWeight: "bold" }}>Còn {`${notifyQuantity} sản phẩm`}</p> : ""}
+            </>
+          )}
         </div>
       </Context.Provider>
     </>

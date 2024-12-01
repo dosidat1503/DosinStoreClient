@@ -75,7 +75,7 @@ const PerformPayment = (props: PerformPaymentProps) => {
       let voucherCode = discountVoucher > 0 ? inputVoucher : "";
 
       const infoForOrder = {
-        matk: localStorage.getItem("auth_matk"),
+        matk: localStorage.getItem("userId"),
         ngayorder: getCurrentDate(),
         tongtien_SP: totalProductAmount,
         vouchergiam: voucherGiam,
@@ -96,7 +96,6 @@ const PerformPayment = (props: PerformPaymentProps) => {
         infoProductJSON,
       };
       SaveOrderMutate(allDataForSaveInfoPayment).then((res: SaveOrderResponse) => {
-        console.log(res.product_quantity_error, "res.product_quantity_error");
         if ((res.product_quantity_error?.length ?? 0) > 0) {
           const contentString = res?.product_quantity_error?.join("\n");
 

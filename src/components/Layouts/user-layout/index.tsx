@@ -1,5 +1,5 @@
-import Header from "./Header";
-import Footer from "./Footer";
+import Header from "@/features/header/components/header";
+import Footer from "@/features/header/components/footer";
 import { Outlet } from "react-router-dom";
 import Container from "@mui/material/Container";
 
