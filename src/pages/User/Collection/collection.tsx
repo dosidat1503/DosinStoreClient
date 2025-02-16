@@ -3,7 +3,6 @@ import { useEffect, useState } from "react";
 
 import useQueryParams from "@/hooks/useQueryParams";
 
-import { NEW } from "../home/home";
 import ProductCard from "@/features/home/components/product-card";
 
 import { Filter } from "@/features/collection/components";
@@ -12,6 +11,7 @@ import { useCollection } from "@/features/collection/hooks/useCollection";
 import { fashionTypeList, numberProductEachPage, sortTypeList } from "@/features/collection/constants";
 
 const { Title } = Typography;
+const NEW = "new";
 
 const ContenTitle = ({ query, fashionType }: ContentTitleProps) => {
   const item = fashionTypeList.find((item) => item.id === fashionType);

@@ -32,6 +32,7 @@ const PaymentInfo = (props: PaymentInfoProps) => {
   } = infoToSaveOrder;
 
   const [voucherError, setVoucherError] = useState("");
+  console.log(voucherError);
   const isDisableApplyVoucher =
     discountVoucher > 0 || (deliveryFee !== defaultDeliveryFee && deliveryFee !== HCMDeliveryFee);
   const voucherDiscountPercent =

@@ -1,3 +1,4 @@
+/* eslint-disable react-refresh/only-export-components */
 import { RouteObject, useRoutes } from "react-router-dom";
 
 import { publicRoutes } from "./public";
@@ -6,7 +7,7 @@ import { NotFound } from "@/components/ui";
 export * from "./protected";
 
 export const AppRoutes = () => {
-  let routes: RouteObject[] = [...publicRoutes, ...protectedRoutes, { path: "*", element: <NotFound /> }];
+  const routes: RouteObject[] = [...publicRoutes, ...protectedRoutes, { path: "*", element: <NotFound /> }];
 
   const element = useRoutes(routes);
 
