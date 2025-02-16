@@ -8,7 +8,7 @@ interface RefreshToken {
 }
 
 const request = axios.create({
-  baseURL: "http://localhost:8000/api",
+  baseURL: "http://3.107.27.218/api",
   headers: {
     "Content-Type": "application/json",
   },
