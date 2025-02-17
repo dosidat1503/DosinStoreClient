@@ -41,10 +41,10 @@ export interface SignInResponse {
   status?: number;
   email?: string;
   matk?: number;
-  token?: string;
+  access_token: string;
+  refresh_token: string;
   message?: string;
-  validation_errors?: string;
-  data: Token;
+  validation_errors: string;
 }
 
 export interface Token {
@@ -70,6 +70,6 @@ export interface SignInInfo {
 
 export interface Tokens {
   token: string;
-  expiresIn: number;
+  // expiresIn: number;
   type: string;
 }

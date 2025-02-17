@@ -72,13 +72,14 @@ const BaseInfo = () => {
   }, [accountInfo, saveInfoAccount]);
 
   useEffect(() => {
-    messageSetting.content &&
+    if (messageSetting.content) {
       messageApi.open({
         type: messageSetting.type,
         content: messageSetting.content,
         duration: 3,
         style: { marginTop: 220 },
       });
+    }
   }, [messageSetting]);
 
   useEffect(() => {

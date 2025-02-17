@@ -9,13 +9,16 @@ import {
 } from "../types";
 
 export const authenticationApi = {
-  signUp(body: SignUpBody) {
-    return request.post<any, SignUpResponse>("/signUp", body).then((res) => res);
+  async signUp(body: SignUpBody) {
+    const res = await request.post<unknown, SignUpResponse>("/signUp", body);
+    return res;
   },
-  signIn(body: SignInBody) {
-    return request.post<any, SignInResponse>("/signIn", body).then((res) => res);
+  async signIn(body: SignInBody) {
+    const res = await request.post<unknown, SignInResponse>("/signIn", body);
+    return res;
   },
-  sendMailRecoverPassword(body: RecoverPasswordBody) {
-    return request.post<any, RecoverPasswordResponse>("/sendMailRecoverPassword", body).then((res) => res);
+  async sendMailRecoverPassword(body: RecoverPasswordBody) {
+    const res = await request.post<unknown, RecoverPasswordResponse>("/sendMailRecoverPassword", body);
+    return res;
   },
 };

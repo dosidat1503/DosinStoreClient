@@ -3,10 +3,10 @@ import { Tokens } from "@/features/authentication/types";
 import Cookies from "js-cookie";
 
 export const setTokens = (tokens: Tokens[]) => {
-  tokens.forEach(({ token, expiresIn, type }) => {
-    const expirationDate = new Date(new Date().getTime() + expiresIn * 1000);
+  tokens.forEach(({ token, type }) => {
+    // const expirationDate = new Date(new Date().getTime() + expiresIn * 1000);
     Cookies.set(type, token, {
-      expires: expirationDate,
+      // expires: expirationDate,
       secure: true,
       sameSite: "strict",
     });

@@ -45,8 +45,12 @@ const SignUp = () => {
     }
 
     signUp(data).then((res) => {
-      res.status === 200 && navigate(`${routes.signUpSuccess}`);
-      res.validation_errors && setError(res?.validation_errors?.email ?? "");
+      if (res.status === 200) {
+        navigate(`${routes.signUpSuccess}`);
+      }
+      if (res.validation_errors) {
+        setError(res?.validation_errors?.email ?? "");
+      }
     });
   };
 
