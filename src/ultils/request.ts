@@ -1,5 +1,5 @@
 import axios from "axios";
-import Cookies from "node_modules/@types/js-cookie";
+import Cookies from "js-cookie";
 import { logout, setTokens } from "./token";
 
 interface RefreshToken {
@@ -8,7 +8,7 @@ interface RefreshToken {
 }
 
 const request = axios.create({
-  baseURL: "http://3.107.27.218/api",
+  baseURL: "http://54.153.222.4/api",
   headers: {
     "Content-Type": "application/json",
   },
@@ -27,23 +27,23 @@ request.interceptors.request.use(
     const originalRequest = error.config;
     if (error.response.status === 401 && !originalRequest._retry) {
       originalRequest._retry = true;
+      console.log("Refresh token");
 
       request
-        .post<RefreshToken>("/api/refresh", {
+        .post<unknown, RefreshToken>("/api/refresh", {
           refreshToken: Cookies.get("refreshToken"),
         })
         .then((res) => {
-          const { access_token, expires_in } = res.data;
+          const { access_token } = res;
 
           setTokens([
             {
               token: access_token,
-              expiresIn: expires_in,
               type: "accessToken",
             },
           ]);
-
-          request.defaults.headers.common["Authorization"] = `Bearer ${res.data.access_token}`;
+          console.log("Refresh token success");
+          request.defaults.headers.common["Authorization"] = `Bearer ${res.access_token}`;
         })
         .catch((error) => {
           throw error;

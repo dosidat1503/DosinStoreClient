@@ -44,17 +44,14 @@ const SignIn = () => {
 
     signIn(data).then((res) => {
       if (res.status === 200) {
-        const { access_token, refresh_token, expires_in_AccessToken, expires_in_RefreshToken } = res.data;
-
+        const { access_token, refresh_token } = res;
         setTokens([
           {
             token: access_token,
-            expiresIn: expires_in_AccessToken,
             type: "accessToken",
           },
           {
             token: refresh_token,
-            expiresIn: expires_in_RefreshToken,
             type: "refreshToken",
           },
         ]);

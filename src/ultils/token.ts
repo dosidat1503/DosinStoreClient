@@ -1,6 +1,6 @@
 import routes from "@/configs/routes";
 import { Tokens } from "@/features/authentication/types";
-import Cookies from "node_modules/@types/js-cookie";
+import Cookies from "js-cookie";
 
 export const setTokens = (tokens: Tokens[]) => {
   tokens.forEach(({ token, expiresIn, type }) => {
