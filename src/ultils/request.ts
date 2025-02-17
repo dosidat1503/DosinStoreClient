@@ -40,7 +40,6 @@ request.interceptors.request.use(
               type: "accessToken",
             },
           ]);
-          console.log("Refresh token success");
           request.defaults.headers.common["Authorization"] = `Bearer ${res.access_token}`;
         })
         .catch((error) => {
