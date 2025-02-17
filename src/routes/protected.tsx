@@ -5,7 +5,7 @@ import routes from "@/configs/routes";
 import UserLayout from "@/components/Layouts/user-layout";
 import { UnAuthenticated } from "@/features/authentication/components";
 const AccountInfo = lazy(() => import("@/pages/user/account-info/account-info"));
-const Cart = lazy(() => import("@/pages/user/cart/cart"));
+const Cart = lazy(() => import("../pages/user/cart/cart"));
 const Payment = lazy(() => import("@/pages/user/payment/payment"));
 const PaymentResult = lazy(() => import("@/features/payment/components/payment-result"));
 const MyOder = lazy(() => import("@/pages/user/my-order/my-order"));
