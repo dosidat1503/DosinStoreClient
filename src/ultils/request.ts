@@ -27,8 +27,6 @@ request.interceptors.request.use(
     const originalRequest = error.config;
     if (error.response.status === 401 && !originalRequest._retry) {
       originalRequest._retry = true;
-      console.log("Refresh token");
-
       request
         .post<unknown, RefreshToken>("/api/refresh", {
           refreshToken: Cookies.get("refreshToken"),
