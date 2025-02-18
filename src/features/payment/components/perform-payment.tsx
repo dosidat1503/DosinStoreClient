@@ -12,12 +12,16 @@ import {
   uncompletePayment,
 } from "../constants";
 import { useNavigate } from "react-router-dom";
+import { Skeleton } from "antd";
 
 const PerformPayment = (props: PerformPaymentProps) => {
   const { shipInformation, infoToSaveOrder, setIsInputShipInformationValidated } = props;
   const { data: infoForPayment } = useInfoForPayment();
-  const { mutateAsync: SaveOrderMutate } = useSaveOrder();
+  const { mutateAsync: SaveOrderMutate, isPending, isSuccess } = useSaveOrder();
   const navigate = useNavigate();
+
+  if (isPending) return <Skeleton active />;
+  if (isSuccess) return <></>;
 
   const handleSaveInfoForPayment = () => {
     const phoneRegex = /^0\d{9}$/;

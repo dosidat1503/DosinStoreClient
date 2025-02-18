@@ -7,9 +7,11 @@ import { BaseInfo, DetailProductImage, ProductDescribe } from "@/features/produc
 import style from "@/features/product-detail/styles/product-detail.module.scss";
 import ProductSelect from "@/features/product-detail/components/product-select";
 import Review from "@/features/product-detail/components/product-review";
+import { useEffect } from "react";
 
 const ProductDetailInfo = () => {
   const params = useQueryParams();
+
   const idProductParams = params.get("id") || "";
   const idProduct = parseInt(idProductParams);
 
@@ -23,6 +25,10 @@ const ProductDetailInfo = () => {
   const descriptionContent = data?.data_sanpham?.MOTA || "";
   const GIABAN = data?.data_sanpham?.GIABAN || 0;
 
+  // eslint-disable-next-line react-hooks/rules-of-hooks
+  useEffect(() => {
+    window.scrollTo(0, 0); // Cuộn lên đầu trang
+  }, []);
   if (isLoading) return <Skeleton active />;
   if (isError) return <h1>Không thể load sản phẩm</h1>;
 
