@@ -8,7 +8,7 @@ interface RefreshToken {
 }
 
 const request = axios.create({
-  baseURL: "http://54.153.222.4/api",
+  baseURL: "https://dosinstoresever.onrender.com/api",
   headers: {
     "Content-Type": "application/json",
   },
