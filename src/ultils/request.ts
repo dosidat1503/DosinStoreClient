@@ -8,7 +8,7 @@ interface RefreshToken {
 }
 
 const request = axios.create({
-  baseURL: "https://dosinstoresever.onrender.com/api",
+  baseURL: "http://127.0.0.1:8000/api",
   headers: {
     "Content-Type": "application/json",
   },
@@ -28,8 +28,9 @@ request.interceptors.request.use(
     if (error.response.status === 401 && !originalRequest._retry) {
       originalRequest._retry = true;
       request
-        .post<unknown, RefreshToken>("/api/refresh", {
+        .post<unknown, RefreshToken>("/api/refreshAccessToken", {
           refreshToken: Cookies.get("refreshToken"),
+          email: localStorage.getItem("email"),
         })
         .then((res) => {
           const { access_token } = res;

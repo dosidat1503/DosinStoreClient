@@ -31,10 +31,13 @@ import {
   searchInputBase,
 } from "@/features/header/styles";
 import routes from "@/configs/routes";
+import { useCartInfo } from "@/features/cart/hooks/use-cart-info";
 
 const Header = () => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
+  const { data } = useCartInfo();
+  const carts = data?.data || [];
 
   const theme = useTheme();
   const navigate = useNavigate();
@@ -76,7 +79,7 @@ const Header = () => {
             <Stack direction={"row"} spacing={2} alignItems={"center"}>
               <div className={style.openPopup}>
                 <IconButton>
-                  <Badge badgeContent={4} color="secondary">
+                  <Badge badgeContent={carts.length || 0} color="secondary">
                     {" "}
                     <AddShoppingCartIcon />
                   </Badge>

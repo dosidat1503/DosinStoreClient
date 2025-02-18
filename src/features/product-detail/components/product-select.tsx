@@ -7,13 +7,14 @@ import { faCartShopping } from "@fortawesome/free-solid-svg-icons";
 import { message, Spin } from "antd";
 import React from "react";
 import { NoticeType } from "antd/es/message/interface";
-import { useCartInfo } from "@/features/cart/hooks/use-cart-info";
+import { useCartInfo, AuthStateProps } from "@/features/cart/hooks/use-cart-info";
 import { useAddProductToCart, useUpdateQuantityPopup } from "@/features/cart/hooks";
 import { setIsShowPopup } from "@/store/slices/cartSlice";
 import { useQueryClient } from "@tanstack/react-query";
 import { cartKeys } from "@/features/cart/constants";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Message } from "@/features/account-info/types";
+import { useNavigate } from "react-router-dom";
 
 const choseType = {
   colorCode: "colorCode",
@@ -36,6 +37,7 @@ message.config({
 
 const ProductSelect = (props: ProductSelectProps) => {
   const { colors, sizes, defineQuantity, idProduct, sellPrice } = props;
+  const navigate = useNavigate();
 
   // const [api, contextHolder] = notification.useNotification();
   const [messageApi, contextHolderMessage] = message.useMessage();
@@ -130,7 +132,13 @@ const ProductSelect = (props: ProductSelectProps) => {
     });
   };
 
+  const isSignIn = useSelector((state: AuthStateProps) => state.auth.isSignIn);
   const handleAddToCart = () => {
+    // eslint-disable-next-line react-hooks/rules-of-hooks
+    if (!isSignIn) {
+      navigate("/authenticate");
+      return;
+    }
     const item = defineQuantity.find((item) => item.MAMAU === colorCode && item.MASIZE === sizeCode);
     if (colorCode === 0 || sizeCode === "") {
       setMessageSetting({

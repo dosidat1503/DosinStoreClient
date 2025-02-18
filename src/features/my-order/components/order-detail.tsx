@@ -6,6 +6,7 @@ import { formatPrice } from "@/helpers";
 import { useNavigate } from "react-router-dom";
 import useQueryParams from "@/hooks/useQueryParams";
 import { useMyOrderDetail } from "../hooks";
+import { Skeleton } from "antd";
 
 const MyOrderDetail = () => {
   const navigate = useNavigate();
@@ -15,7 +16,7 @@ const MyOrderDetail = () => {
   };
 
   const orderCode = parseInt(params.get("orderCode") || "0");
-  const { data: infoOrderDetail } = useMyOrderDetail(orderCode);
+  const { data: infoOrderDetail, isLoading } = useMyOrderDetail(orderCode);
 
   const {
     TEN,
@@ -48,6 +49,8 @@ const MyOrderDetail = () => {
       </tbody>
     ));
   };
+
+  if (isLoading) return <Skeleton active />;
 
   return (
     <div>

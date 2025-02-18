@@ -7,6 +7,7 @@ import useQueryParams from "@/hooks/useQueryParams";
 import { sortTypeList } from "../constants";
 import { SortByItem } from "../types";
 import style from "../styles/sort-by.module.scss";
+import { useCategory } from "../hooks";
 
 const { Title } = Typography;
 
@@ -14,6 +15,9 @@ const SortBy = () => {
   const params = useQueryParams();
   const sortBy = params.get("sortBy") || sortTypeList[0].id;
 
+  const fashionType = parseInt(params.get("fashionType") || "1");
+
+  const { isLoading } = useCategory(fashionType);
   const navigate = useNavigate();
 
   const handleClickSort = (sortby: string) => {
@@ -42,6 +46,8 @@ const SortBy = () => {
       </Button>
     </Col>
   ));
+
+  if (isLoading) return null;
 
   return (
     <Flex gap="middle" className={style.filterContainer} align="center">

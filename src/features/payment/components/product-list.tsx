@@ -2,12 +2,13 @@ import clsx from "clsx";
 import { useInfoForPayment } from "../hooks";
 import style from "../styles/product-list.module.scss";
 import { formatPrice } from "@/helpers";
-import { Divider } from "antd";
+import { Divider, Skeleton } from "antd";
 
 const ProductList = () => {
-  const { data: infoForPayment } = useInfoForPayment();
+  const { data: infoForPayment, isLoading, isFetching } = useInfoForPayment();
   const products = infoForPayment?.products;
 
+  if (isLoading || isFetching) return <Skeleton active />;
   if (products?.length === 0) return <></>;
   return (
     <div className={style.productContainer}>

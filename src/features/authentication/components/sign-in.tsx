@@ -44,14 +44,17 @@ const SignIn = () => {
 
     signIn(data).then((res) => {
       if (res.status === 200) {
-        const { access_token, refresh_token } = res;
+        const {
+          access_token,
+          // refresh_token
+        } = res;
         setTokens([
           {
             token: access_token,
             type: "accessToken",
           },
           {
-            token: refresh_token,
+            token: "",
             type: "refreshToken",
           },
         ]);
@@ -112,9 +115,9 @@ const SignIn = () => {
         </span>
       )}
       {!signInPending && !isClickForgetPass && (
-        <input onClick={handleSignIn} value="Đăng nhập" className={`btn solid btn  `} />
+        <input onClick={handleSignIn} value="Đăng nhập" className={`btn btn-dark`} />
       )}
-      {isClickForgetPass && !recoverPasswordPending && (
+      {isClickForgetPass && !isSendMailSuccess && !recoverPasswordPending && (
         <span onClick={handleRecoverPassword} className={`button_recoverPassword `}>
           Khôi phục mật khẩu
         </span>

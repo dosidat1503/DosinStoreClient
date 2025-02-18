@@ -127,7 +127,7 @@ const SignUp = () => {
       {isPending ? (
         <div className={`donut multi `}></div>
       ) : (
-        <input type="submit" onClick={handleSignUpSubmit} className={`btn btn_sign_up`} value="Đăng ký" />
+        <input type="submit" onClick={handleSignUpSubmit} className={`btn btn-dark`} value="Đăng ký" />
       )}
     </div>
   );
